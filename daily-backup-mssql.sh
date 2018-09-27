@@ -15,6 +15,7 @@ year=$(date +"%Y")
 
 # MSSQL 
 # Credentials
+mssql_cmd=/opt/mssql-tools/bin/sqlcmd
 mssql_user=sa
 mssql_pwd=MyFuckingPassword...
 
@@ -36,8 +37,8 @@ database_name=DbTest
 filename=$database_name-$datetime.bak
 
 # mssql commands backup
-sqlcmd -S localhost -U $mssql_user -P $mssql_pwd -Q"
-BACKUP DATABASE [$database_name] TO  DISK = N'$path_mssql_data/$filename' WITH NOFORMAT, NOINIT,  NAME = N'$database_name-Full-$datetime', NOSKIP, REWIND, NOUNLOAD, STA$
+$mssql_cmd -S localhost -U $mssql_user -P $mssql_pwd -Q"
+BACKUP DATABASE [$database_name] TO  DISK = N'$path_mssql_data/$filename' WITH NOFORMAT, NOINIT,  NAME = N'$database_name-Full-$datetime', NOSKIP, REWIND, NOUNLOAD, STATS = 10
 GO
 exit"
 mv $path_mssql_data/$filename $backup_path_day_mssql
